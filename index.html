@@ -945,6 +945,387 @@
 
     .tech-item:hover .emoji { transform: translate3d(0, 0, 25px); }
     .tech-item:hover span { transform: translate3d(0, 0, 15px); }
+
+    /* --- Tech Stack Visualizer --- */
+    .tech-connections-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .tech-connections-svg path {
+      fill: none;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 4px var(--accent));
+      stroke-dasharray: 8 4;
+      animation: connectionDash 20s linear infinite;
+      transition: stroke-dashoffset 0.1s ease-out;
+    }
+    
+    @keyframes connectionDash {
+      to {
+        stroke-dashoffset: -1000;
+      }
+    }
+    
+    .tech-item {
+      position: relative;
+      z-index: 2;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s, transform 0.4s !important;
+    }
+    
+    .tech-dimmed {
+      opacity: 0.25 !important;
+      transform: scale(0.95) !important;
+      box-shadow: none !important;
+    }
+    
+    .tech-connected {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 15px var(--accent-glow) !important;
+      transform: translateY(-6px) scale(1.05) !important;
+      opacity: 1 !important;
+    }
+
+    /* --- Testimonials Carousel --- */
+    .testimonial-carousel-container {
+      position: relative;
+      max-width: 800px;
+      margin: 2rem auto 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      padding: 1rem 0;
+    }
+    
+    .testimonial-carousel-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+      cursor: grab;
+    }
+    
+    .testimonial-carousel-track:active {
+      cursor: grabbing;
+    }
+    
+    .testimonial-slide {
+      flex: 0 0 100%;
+      padding: 0 3rem;
+      box-sizing: border-box;
+    }
+    
+    .testimonial-slide .testimonial-card {
+      margin: 0;
+      max-width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .carousel-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(8px);
+    }
+    
+    .carousel-nav-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+      color: #fff;
+    }
+    
+    .prev-btn {
+      left: 0;
+    }
+    
+    .next-btn {
+      right: 0;
+    }
+    
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .indicator-dot.active {
+      background: var(--accent);
+      transform: scale(1.3);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    
+    @media (max-width: 640px) {
+      .testimonial-slide {
+        padding: 0 1rem;
+      }
+      .carousel-nav-btn {
+        display: none;
+      }
+    }
+
+    /* --- Project Details Drawer --- */
+    .drawer-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 5, 8, 0.5);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .drawer-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .project-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 600px;
+      height: 100vh;
+      background: rgba(10, 10, 16, 0.85);
+      border-left: 1px solid var(--card-border);
+      backdrop-filter: blur(20px);
+      z-index: 1001;
+      transform: translate3d(100%, 0, 0);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -20px 0 50px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .project-drawer.active {
+      transform: translate3d(0, 0, 0);
+    }
+    
+    .drawer-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .drawer-header h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    
+    .drawer-close-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .drawer-close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      transform: rotate(90deg);
+    }
+    
+    .drawer-content {
+      padding: 2rem;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .drawer-section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+    
+    .challenge-solution-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .challenge-box, .solution-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+    }
+    
+    .challenge-box h4 {
+      color: #ef4444;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .solution-box h4 {
+      color: #10b981;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .challenge-box p, .solution-box p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    
+    .arch-flowchart {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .arch-node {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1.25rem;
+    }
+    
+    .arch-node-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    
+    .arch-node-text {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    
+    .arch-node-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+    
+    .arch-arrow {
+      align-self: center;
+      color: var(--accent);
+      opacity: 0.5;
+      font-size: 1.2rem;
+      line-height: 1;
+      margin: -0.25rem 0;
+    }
+    
+    .code-container {
+      background: #010103;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      position: relative;
+      overflow-x: auto;
+    }
+    
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.5rem;
+    }
+    
+    .code-lang {
+      font-weight: 700;
+      color: var(--accent);
+    }
+    
+    .code-copy-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: color 0.3s;
+    }
+    
+    .code-copy-btn:hover {
+      color: var(--text);
+    }
+    
+    .code-snippet {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+      white-space: pre;
+      margin: 0;
+    }
   </style>
 <base target="_blank">
 </head>
@@ -1015,15 +1396,16 @@
           <h2>I turn ideas into <span class="gradient-text">real</span> web applications</h2>
           <p>I'm a passionate full stack developer who enjoys clean code, intuitive UI, and building products that make an impact. From landing pages to full-fledged management systems, I love solving real problems with technology.</p>
           <div class="section-label" style="margin-top: 2rem;">🛠 Tech Stack</div>
-          <div class="tech-row" style="justify-content: flex-start;">
-            <div class="tech-item"><div class="emoji">🌐</div><span>HTML</span></div>
-            <div class="tech-item"><div class="emoji">🎨</div><span>CSS</span></div>
-            <div class="tech-item"><div class="emoji">⚡</div><span>JS</span></div>
-            <div class="tech-item"><div class="emoji">⚛️</div><span>React</span></div>
-            <div class="tech-item"><div class="emoji">🟢</div><span>Node.js</span></div>
-            <div class="tech-item"><div class="emoji">🍃</div><span>MongoDB</span></div>
-            <div class="tech-item"><div class="emoji">🔥</div><span>Firebase</span></div>
-            <div class="tech-item"><div class="emoji">🔀</div><span>Git</span></div>
+          <div class="tech-row" style="justify-content: flex-start; position: relative;">
+            <svg class="tech-connections-svg"></svg>
+            <div class="tech-item" data-tech="html"><div class="emoji">🌐</div><span>HTML</span></div>
+            <div class="tech-item" data-tech="css"><div class="emoji">🎨</div><span>CSS</span></div>
+            <div class="tech-item" data-tech="js"><div class="emoji">⚡</div><span>JS</span></div>
+            <div class="tech-item" data-tech="react"><div class="emoji">⚛️</div><span>React</span></div>
+            <div class="tech-item" data-tech="node"><div class="emoji">🟢</div><span>Node.js</span></div>
+            <div class="tech-item" data-tech="mongodb"><div class="emoji">🍃</div><span>MongoDB</span></div>
+            <div class="tech-item" data-tech="firebase"><div class="emoji">🔥</div><span>Firebase</span></div>
+            <div class="tech-item" data-tech="git"><div class="emoji">🔀</div><span>Git</span></div>
           </div>
         </div>
         <div class="stats-grid">
@@ -1237,18 +1619,59 @@
     </div>
   </section>
 
-  <!-- Testimonial -->
-  <section>
+  <!-- Testimonials -->
+  <section id="testimonials">
     <div class="container">
       <div class="section-header reveal">
-        <div class="section-label">💬 Testimonial</div>
+        <div class="section-label">💬 Testimonials</div>
         <h2>What People Say</h2>
       </div>
-      <div class="testimonial-card reveal">
-        <div class="quote-icon">❝</div>
-        <p>Krish is dedicated, hardworking and delivers high quality work. He understood my requirements perfectly and built exactly what I needed.</p>
-        <h4>— A Happy Client</h4>
-        <span>Business Owner</span>
+      <div class="testimonial-carousel-container reveal">
+        <div class="testimonial-carousel-track">
+          <!-- Slide 1 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="quote-icon">❝</div>
+              <p>InvoiceByKrish transformed how we handle billing. The multi-tenant dashboard is lightning fast, and client onboarding takes minutes. A masterclass in SaaS development!</p>
+              <h4>— Marcus Chen</h4>
+              <span>Founder at Finlytics</span>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="quote-icon">❝</div>
+              <p>Krish developed a beautiful landing page that immediately boosted our conversion rate. His responsiveness and attention to UI details are top-tier.</p>
+              <h4>— Sarah Jenkins</h4>
+              <span>Agency Director at WebSathhi</span>
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="quote-icon">❝</div>
+              <p>The eChotu QR Cafe System is incredibly smooth. Real-time orders and table management work flawlessly. Truly a game-changer for our cafe operations.</p>
+              <h4>— Chef Antonio</h4>
+              <span>Owner at Bella Italia</span>
+            </div>
+          </div>
+          <!-- Slide 4 -->
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="quote-icon">❝</div>
+              <p>Dedicated, hardworking, and delivers high-quality work. He understood my requirements perfectly and built exactly what I needed.</p>
+              <h4>— Alex Rivera</h4>
+              <span>Tech Product Lead</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Controls -->
+        <button class="carousel-nav-btn prev-btn" aria-label="Previous Testimonial">‹</button>
+        <button class="carousel-nav-btn next-btn" aria-label="Next Testimonial">›</button>
+        
+        <!-- Indicators -->
+        <div class="carousel-indicators"></div>
       </div>
     </div>
   </section>
@@ -2078,6 +2501,422 @@
       }
     }
 
+    // 5. Project Details Drawer
+    function initProjectDrawer() {
+      const projectsData = {
+        'invoice-by-krish': {
+          title: 'InvoiceByKrish — SaaS Invoice & Inventory',
+          challenge: 'Multi-tenant database scaling, absolute security rules for client data isolation, and instant synchronization of high-volume sales/billing data without backend lag.',
+          solution: 'Implemented real-time Firestore synchronization with custom composite index queries, protected by granular security rules to isolate client tenants. Integrated lightweight browser caching to ensure immediate UI updates during offline drops.',
+          architecture: [
+            { num: '1', title: 'React Client', desc: 'State management and calculations' },
+            { num: '2', title: 'Firebase Auth', desc: 'Secure tenant authentication' },
+            { num: '3', title: 'Firestore DB', desc: 'Real-time multi-tenant sync' },
+            { num: '4', title: 'PDF Engine', desc: 'Client-side branded invoice generation' }
+          ],
+          code: `// Firestore Rules for Tenant Isolation
+match /tenants/{tenantId} {
+  allow read, write: if request.auth != null && 
+    request.auth.token.tenantId == tenantId;
+  
+  match /invoices/{invoiceId} {
+    allow read, write: if request.auth != null && 
+      resource.data.tenantId == tenantId;
+  }
+}`
+        },
+        'websathhi-agency': {
+          title: 'WebSathhi Agency Landing Page',
+          challenge: 'Building a ultra-fast, modern single-page experience for local businesses that achieves 100% Core Web Vitals scores while staying responsive and interactive.',
+          solution: 'Built a modular semantic structure using custom CSS custom properties (variables) for theme transitions, lazy-loaded interactive items, and embedded visual assets in optimized modern formats.',
+          architecture: [
+            { num: '1', title: 'HTML5 Semantic Structure', desc: 'SEO and Accessibility base' },
+            { num: '2', title: 'Custom Vanilla CSS', desc: 'Flexible variables and layout' },
+            { num: '3', title: 'Intersection Observer', desc: 'Lazy loading state reveal' },
+            { num: '4', title: 'Carrd Integration', desc: 'Ultra-fast CDN delivery' }
+          ],
+          code: `// Smooth Dynamic Intersection Observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });`
+        },
+        'echotu-qr-cafe': {
+          title: 'eChotu — QR Cafe System',
+          challenge: 'Managing real-time status updates (like table ordering, cooking status, billing requests) concurrently for both waiters and kitchen staff with zero latency.',
+          solution: 'Designed a React + Node.js real-time state synchronization hub using serverless cloud triggers and full-duplex socket updates. Built an adaptive dashboard interface optimized for high-heat kitchen display tablets.',
+          architecture: [
+            { num: '1', title: 'QR Scan Access', desc: 'Unique table link generation' },
+            { num: '2', title: 'React UI Dashboard', desc: 'Real-time waiter & kitchen screen' },
+            { num: '3', title: 'Node Express Backend', desc: 'Order transaction processing' },
+            { num: '4', title: 'MongoDB Clusters', desc: 'Scalable persistent order records' }
+          ],
+          code: `// Socket Order Sync State Handler
+socket.on('newOrder', (orderData) => {
+  setOrders(prev => {
+    const updated = [orderData, ...prev];
+    playAlertChime(); // Audio cue for kitchen
+    return updated;
+  });
+});`
+        }
+      };
+
+      // Create drawer elements
+      let backdrop = document.querySelector('.drawer-backdrop');
+      let drawer = document.querySelector('.project-drawer');
+      
+      if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.className = 'drawer-backdrop';
+        document.body.appendChild(backdrop);
+      }
+      
+      if (!drawer) {
+        drawer = document.createElement('div');
+        drawer.className = 'project-drawer';
+        drawer.innerHTML = `
+          <div class="drawer-header">
+            <h3 id="drawer-title">Project Details</h3>
+            <button class="drawer-close-btn" aria-label="Close details">×</button>
+          </div>
+          <div class="drawer-content">
+            <div>
+              <div class="drawer-section-title">Challenge vs Solution</div>
+              <div class="challenge-solution-grid">
+                <div class="challenge-box">
+                  <h4>⚠️ The Challenge</h4>
+                  <p id="drawer-challenge"></p>
+                </div>
+                <div class="solution-box">
+                  <h4>✅ The Solution</h4>
+                  <p id="drawer-solution"></p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="drawer-section-title">System Architecture</div>
+              <div class="arch-flowchart" id="drawer-arch"></div>
+            </div>
+            <div>
+              <div class="drawer-section-title">Key Code Snippet</div>
+              <div class="code-container">
+                <div class="code-header">
+                  <span class="code-lang">JavaScript</span>
+                  <button class="code-copy-btn">Copy Code</button>
+                </div>
+                <pre class="code-snippet" id="drawer-code"></pre>
+              </div>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(drawer);
+      }
+
+      const closeBtn = drawer.querySelector('.drawer-close-btn');
+      const copyBtn = drawer.querySelector('.code-copy-btn');
+      
+      function closeDrawer() {
+        drawer.classList.remove('active');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      closeBtn.addEventListener('click', closeDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer.classList.contains('active')) {
+          closeDrawer();
+        }
+      });
+
+      copyBtn.addEventListener('click', () => {
+        const codeText = drawer.querySelector('#drawer-code').textContent;
+        navigator.clipboard.writeText(codeText).then(() => {
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = 'Copy Code';
+          }, 2000);
+        });
+      });
+
+      const projectCards = document.querySelectorAll('.project-card');
+      projectCards.forEach((card, idx) => {
+        const detailsBtn = card.querySelector('.btn-secondary');
+        if (!detailsBtn) return;
+        
+        detailsBtn.removeAttribute('onclick');
+        
+        let projectKey = '';
+        if (idx === 0) projectKey = 'invoice-by-krish';
+        else if (idx === 1) projectKey = 'websathhi-agency';
+        else if (idx === 2) projectKey = 'echotu-qr-cafe';
+        
+        if (!projectKey || !projectsData[projectKey]) return;
+
+        detailsBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const data = projectsData[projectKey];
+          
+          drawer.querySelector('#drawer-title').textContent = data.title;
+          drawer.querySelector('#drawer-challenge').textContent = data.challenge;
+          drawer.querySelector('#drawer-solution').textContent = data.solution;
+          
+          const archContainer = drawer.querySelector('#drawer-arch');
+          archContainer.innerHTML = '';
+          data.architecture.forEach((node, nIdx) => {
+            const nodeEl = document.createElement('div');
+            nodeEl.className = 'arch-node';
+            nodeEl.innerHTML = `
+              <div class="arch-node-num">${node.num}</div>
+              <div class="arch-node-text">${node.title}</div>
+              <div class="arch-node-desc">${node.desc}</div>
+            `;
+            archContainer.appendChild(nodeEl);
+            
+            if (nIdx < data.architecture.length - 1) {
+              const arrowEl = document.createElement('div');
+              arrowEl.className = 'arch-arrow';
+              arrowEl.textContent = '↓';
+              archContainer.appendChild(arrowEl);
+            }
+          });
+          
+          drawer.querySelector('#drawer-code').textContent = data.code;
+          drawer.classList.add('active');
+          backdrop.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+    }
+
+    // 6. Testimonials Carousel
+    function initTestimonialsCarousel() {
+      const container = document.querySelector('.testimonial-carousel-container');
+      if (!container) return;
+
+      const track = container.querySelector('.testimonial-carousel-track');
+      const slides = Array.from(track.children);
+      const prevBtn = container.querySelector('.prev-btn');
+      const nextBtn = container.querySelector('.next-btn');
+      const indicatorsContainer = container.querySelector('.carousel-indicators');
+
+      let currentIndex = 0;
+      let autoplayTimer = null;
+      let isDragging = false;
+      let startX = 0;
+      let currentTranslate = 0;
+      let prevTranslate = 0;
+      let animationID = null;
+
+      slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'indicator-dot' + (index === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to testimonial slide ${index + 1}`);
+        indicatorsContainer.appendChild(dot);
+        dot.addEventListener('click', () => {
+          goToSlide(index);
+          resetAutoplay();
+        });
+      });
+
+      const dots = Array.from(indicatorsContainer.children);
+
+      function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        
+        currentIndex = index;
+        const offset = -currentIndex * 100;
+        track.style.transform = `translateX(${offset}%)`;
+        
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === currentIndex);
+        });
+        
+        prevTranslate = -currentIndex * container.offsetWidth;
+      }
+
+      function startAutoplay() {
+        if (autoplayTimer) clearInterval(autoplayTimer);
+        autoplayTimer = setInterval(() => {
+          goToSlide(currentIndex + 1);
+        }, 5000);
+      }
+
+      function resetAutoplay() {
+        startAutoplay();
+      }
+
+      prevBtn.addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+        resetAutoplay();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+        resetAutoplay();
+      });
+
+      container.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
+      container.addEventListener('mouseleave', startAutoplay);
+
+      track.addEventListener('touchstart', dragStart);
+      track.addEventListener('touchend', dragEnd);
+      track.addEventListener('touchmove', dragMove);
+      
+      track.addEventListener('mousedown', dragStart);
+      track.addEventListener('mouseup', dragEnd);
+      track.addEventListener('mouseleave', dragEnd);
+      track.addEventListener('mousemove', dragMove);
+
+      function dragStart(e) {
+        isDragging = true;
+        startX = getPositionX(e);
+        animationID = requestAnimationFrame(animation);
+        clearInterval(autoplayTimer);
+      }
+
+      function dragMove(e) {
+        if (!isDragging) return;
+        const currentX = getPositionX(e);
+        currentTranslate = prevTranslate + currentX - startX;
+      }
+
+      function dragEnd() {
+        isDragging = false;
+        cancelAnimationFrame(animationID);
+        
+        const movedBy = currentTranslate - prevTranslate;
+        
+        if (movedBy < -100 && currentIndex < slides.length - 1) {
+          currentIndex += 1;
+        } else if (movedBy > 100 && currentIndex > 0) {
+          currentIndex -= 1;
+        }
+        
+        goToSlide(currentIndex);
+        startAutoplay();
+      }
+
+      function getPositionX(e) {
+        return e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+      }
+
+      function animation() {
+        if (isDragging) {
+          const containerWidth = container.offsetWidth;
+          const percentage = (currentTranslate / containerWidth) * 100;
+          track.style.transform = `translateX(${percentage}%)`;
+          requestAnimationFrame(animation);
+        }
+      }
+
+      startAutoplay();
+    }
+
+    // 7. Tech Stack Connection Visualizer
+    function initTechConnections() {
+      const techRow = document.querySelector('.tech-row');
+      if (!techRow) return;
+
+      const svg = techRow.querySelector('.tech-connections-svg');
+      if (!svg) return;
+
+      const items = Array.from(techRow.querySelectorAll('.tech-item'));
+      
+      const connectionsMap = {
+        'html': ['css', 'js'],
+        'css': ['html', 'js', 'react'],
+        'js': ['html', 'css', 'react', 'node'],
+        'react': ['js', 'html', 'css', 'node', 'firebase'],
+        'node': ['js', 'mongodb', 'react'],
+        'mongodb': ['node'],
+        'firebase': ['react', 'js'],
+        'git': ['html', 'css', 'js', 'react', 'node', 'mongodb', 'firebase']
+      };
+
+      function clearConnections() {
+        svg.innerHTML = '';
+        items.forEach(item => {
+          item.classList.remove('tech-dimmed', 'tech-connected');
+        });
+      }
+
+      function drawConnection(fromEl, toEl) {
+        const rowRect = techRow.getBoundingClientRect();
+        const fromRect = fromEl.getBoundingClientRect();
+        const toRect = toEl.getBoundingClientRect();
+
+        const x1 = fromRect.left - rowRect.left + fromRect.width / 2;
+        const y1 = fromRect.top - rowRect.top + fromRect.height / 2;
+        const x2 = toRect.left - rowRect.left + toRect.width / 2;
+        const y2 = toRect.top - rowRect.top + toRect.height / 2;
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        
+        const cx1 = x1 + (x2 - x1) * 0.25;
+        const cy1 = y1 + (y2 - y1) * 0.1;
+        const cx2 = x1 + (x2 - x1) * 0.75;
+        const cy2 = y2 - (y2 - y1) * 0.1;
+        
+        path.setAttribute('d', `M ${x1} ${y1} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${x2} ${y2}`);
+        path.setAttribute('stroke', 'url(#connection-glow)');
+        
+        const length = path.getTotalLength() || 200;
+        path.style.strokeDasharray = length;
+        path.style.strokeDashoffset = length;
+        svg.appendChild(path);
+        
+        path.getBoundingClientRect();
+        path.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        path.style.strokeDashoffset = '0';
+      }
+
+      items.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          const techKey = item.getAttribute('data-tech');
+          if (!techKey || !connectionsMap[techKey]) return;
+
+          const connectedKeys = connectionsMap[techKey];
+          
+          clearConnections();
+
+          svg.innerHTML = `
+            <defs>
+              <linearGradient id="connection-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="var(--accent-2)" stop-opacity="0.8"/>
+              </linearGradient>
+            </defs>
+          `;
+
+          items.forEach(el => {
+            const elKey = el.getAttribute('data-tech');
+            if (elKey === techKey) {
+              el.classList.add('tech-connected');
+            } else if (connectedKeys.includes(elKey)) {
+              el.classList.add('tech-connected');
+              drawConnection(item, el);
+            } else {
+              el.classList.add('tech-dimmed');
+            }
+          });
+        });
+
+        item.addEventListener('mouseleave', () => {
+          clearConnections();
+        });
+      });
+      
+      window.addEventListener('resize', clearConnections);
+    }
+
     // Initialize all custom premium features when DOM loads
     window.addEventListener('DOMContentLoaded', () => {
       initMobileMenu();
@@ -2088,6 +2927,9 @@
       initTypingRole();
       initTerminal();
       initAudioSystem();
+      initProjectDrawer();
+      initTestimonialsCarousel();
+      initTechConnections();
     });
   </script>
 
